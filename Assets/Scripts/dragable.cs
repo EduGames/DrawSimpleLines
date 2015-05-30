@@ -8,8 +8,8 @@ public class dragable : MonoBehaviour {
 	private Vector3 offset;
 
 	// Game Play options
-//	public bool GoAndBack;
 	public bool closedShape;
+	public bool connectedLines;
 
 	// Draw Lines
 	public Material lineMaterial;
@@ -30,11 +30,15 @@ public class dragable : MonoBehaviour {
 
 	void Awake(){
 		// Joint Start points with the other EndPoints.
-		for (int i = 1; i < lines.Length; i++) {
-			lines[i].transform.FindChild("StartPoint").position = lines[i-1].transform.FindChild("EndPoint").position;
-		}
-		if (closedShape && lines.Length > 2) {
-			lines[lines.Length - 1].transform.FindChild("EndPoint").position = lines[0].transform.FindChild("StartPoint").position;
+		if (connectedLines) {
+			for (int i = 1; i < lines.Length; i++) {
+				lines [i].transform.FindChild ("StartPoint").position = lines [i - 1].transform.FindChild ("EndPoint").position;
+				gizmoLine g = (gizmoLine) lines [i].GetComponent(typeof(gizmoLine));
+				g.resetLines();
+			}
+			if (closedShape && lines.Length > 2) {
+				lines [lines.Length - 1].transform.FindChild ("EndPoint").position = lines [0].transform.FindChild ("StartPoint").position;
+			}
 		}
 
 		// Set Start states
@@ -69,6 +73,19 @@ public class dragable : MonoBehaviour {
 
 		updatePosition ();
 
+//		if (transform.position == TargetPoint.position){
+//			if(activeLineIndex + 1 < lines.Length){
+//				initActiveLine();
+//			}else{
+//				playable = false;
+//			}
+//		}
+
+		lineDraw.SetPosition ( 1 , transform.position);
+	}
+
+	void OnMouseUp() {
+		if (!playable) return;
 		if (transform.position == TargetPoint.position){
 			if(activeLineIndex + 1 < lines.Length){
 				initActiveLine();
@@ -78,7 +95,6 @@ public class dragable : MonoBehaviour {
 		}
 		if(TargetPoint.position != transform.position)
 			updateRotation (TargetPoint);
-		lineDraw.SetPosition ( 1 , transform.position);
 	}
 
 	private void updateRotation(Transform position){
@@ -101,9 +117,9 @@ public class dragable : MonoBehaviour {
 	{
 		lineDraw.SetPosition (1, transform.position);
 		activeLine = lines[++activeLineIndex];
+
 		lineDraw = activeLine.GetComponent<LineRenderer>();
-		lineDraw.SetPosition (0, transform.position);
-		lineDraw.SetPosition (1, transform.position);
+		transform.position = activeLine.transform.FindChild ("StartPoint").position;
 		
 		TargetPoint = activeLine.transform.FindChild("EndPoint");
 		newLine = false;
@@ -133,9 +149,11 @@ public class dragable : MonoBehaviour {
 				g.resetLines();
 			}
 			lineDraw = activeLine.GetComponent<LineRenderer>();
+			transform.position = activeLine.transform.FindChild ("StartPoint").position;
 			return;
 		}
 		lineDraw = lines[animatedLineIndex].GetComponent<LineRenderer>();
+		transform.position = lines[animatedLineIndex].transform.FindChild ("StartPoint").position;
 		nextAnimatedTargetPoint ();
 		updateRotation (animatedTargetPoint);
 		animateActiveLine ();
