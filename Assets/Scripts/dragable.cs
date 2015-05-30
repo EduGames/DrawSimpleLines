@@ -143,13 +143,13 @@ public class dragable : MonoBehaviour {
 	
 	void animateWholeShape(){
 		if (animatedLineIndex == lines.Length) {
-			updateRotation (TargetPoint);
 			foreach (GameObject line in lines) {
 				gizmoLine g = (gizmoLine) line.GetComponent(typeof(gizmoLine));
 				g.resetLines();
 			}
 			lineDraw = activeLine.GetComponent<LineRenderer>();
 			transform.position = activeLine.transform.FindChild ("StartPoint").position;
+			updateRotation (TargetPoint);
 			return;
 		}
 		lineDraw = lines[animatedLineIndex].GetComponent<LineRenderer>();
