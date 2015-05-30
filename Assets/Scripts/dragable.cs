@@ -8,7 +8,7 @@ public class dragable : MonoBehaviour {
 	private Vector3 offset;
 
 	// Game Play options
-	public bool GoAndBack;
+//	public bool GoAndBack;
 	public bool closedShape;
 
 	// Draw Lines
@@ -45,6 +45,7 @@ public class dragable : MonoBehaviour {
 
 		// Set/Get GameObject Components
 		lineDraw = activeLine.GetComponent<LineRenderer>();
+
 	}
 
 	void OnMouseDown() {
@@ -66,13 +67,13 @@ public class dragable : MonoBehaviour {
 			}else{
 				gameEnded = true;
 			}
-		} else if (GoAndBack && transform.position == activeLine.transform.FindChild("StartPoint").position && activeLineIndex > 0){
-			// May be Deleted at the end  ( I am not sure if I will support DrawBack )
-			lineDraw.SetPosition (0, transform.position);
-			lineDraw.SetPosition (1, transform.position);
-			activeLine = lines[--activeLineIndex];
-			TargetPoint = activeLine.transform.FindChild("EndPoint");
-			lineDraw = activeLine.GetComponent<LineRenderer>();
+//		} else if (GoAndBack && transform.position == activeLine.transform.FindChild("StartPoint").position && activeLineIndex > 0){
+//			// May be Deleted at the end  ( I am not sure if I will support DrawBack )
+//			lineDraw.SetPosition (0, transform.position);
+//			lineDraw.SetPosition (1, transform.position);
+//			activeLine = lines[--activeLineIndex];
+//			TargetPoint = activeLine.transform.FindChild("EndPoint");
+//			lineDraw = activeLine.GetComponent<LineRenderer>();
 		}
 		if(TargetPoint.position != transform.position)
 			updateRotation (TargetPoint);
@@ -97,6 +98,7 @@ public class dragable : MonoBehaviour {
 
 	void initActiveLine ()
 	{
+		lineDraw.SetPosition (1, transform.position);
 		activeLine = lines[++activeLineIndex];
 		lineDraw = activeLine.GetComponent<LineRenderer>();
 		lineDraw.SetPosition (0, transform.position);
