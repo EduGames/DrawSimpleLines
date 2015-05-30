@@ -13,6 +13,10 @@ public class gizmoLine : MonoBehaviour {
 	}
 
 	void Awake(){
+		resetLines ();
+	}
+
+	public void resetLines(){
 		LineRenderer lineDraw = GetComponent<LineRenderer> ();
 		lineDraw.SetPosition (0, start.position);
 		lineDraw.SetPosition (1, start.position);

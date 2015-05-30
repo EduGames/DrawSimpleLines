@@ -21,9 +21,12 @@ public class dragable : MonoBehaviour {
 	private int activeLineIndex;
 	private Transform TargetPoint;
 
+	private Transform animatedTargetPoint;
+	private int animatedLineIndex;
+
 	// Game State
 	private bool newLine;
-	private bool gameEnded;
+	private bool playable;
 
 	void Awake(){
 		// Joint Start points with the other EndPoints.
@@ -39,24 +42,29 @@ public class dragable : MonoBehaviour {
 		activeLine = lines [activeLineIndex];
 		TargetPoint = activeLine.transform.FindChild("EndPoint");
 
+		// 
+		animatedLineIndex = 0;
+		animatedTargetPoint = activeLine.transform.FindChild("EndPoint");
+
 		// Set Position of Player to Start Point #1
 		transform.position = lines[0].transform.FindChild("StartPoint").position;
 		updateRotation (TargetPoint);
 
 		// Set/Get GameObject Components
 		lineDraw = activeLine.GetComponent<LineRenderer>();
-
+		playable = true;
+		animateWholeShape();
 	}
-
+	
 	void OnMouseDown() {
-		if (gameEnded) return;
+		if (!playable) return;
 		newLine = true;
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
 	}
 	
 	void OnMouseDrag()
 	{
-		if (!newLine || gameEnded)
+		if (!newLine || !playable)
 			return;
 
 		updatePosition ();
@@ -65,15 +73,8 @@ public class dragable : MonoBehaviour {
 			if(activeLineIndex + 1 < lines.Length){
 				initActiveLine();
 			}else{
-				gameEnded = true;
+				playable = false;
 			}
-//		} else if (GoAndBack && transform.position == activeLine.transform.FindChild("StartPoint").position && activeLineIndex > 0){
-//			// May be Deleted at the end  ( I am not sure if I will support DrawBack )
-//			lineDraw.SetPosition (0, transform.position);
-//			lineDraw.SetPosition (1, transform.position);
-//			activeLine = lines[--activeLineIndex];
-//			TargetPoint = activeLine.transform.FindChild("EndPoint");
-//			lineDraw = activeLine.GetComponent<LineRenderer>();
 		}
 		if(TargetPoint.position != transform.position)
 			updateRotation (TargetPoint);
@@ -106,6 +107,42 @@ public class dragable : MonoBehaviour {
 		
 		TargetPoint = activeLine.transform.FindChild("EndPoint");
 		newLine = false;
+	}
+
+
+	void animateActiveLine(){
+		iTween.MoveTo (gameObject,// animatedTargetPoint.position, 2.0f);
+		               iTween.Hash (
+			"position", animatedTargetPoint.position,
+			"time", 2.0f,
+			"oncomplete", "animateWholeShape",
+			"onupdate", "drawAnimatedLines"
+			)
+		               );
+	}
+	
+	void drawAnimatedLines(){
+		lineDraw.SetPosition (1, transform.position);
+	}
+	
+	void animateWholeShape(){
+		if (animatedLineIndex == lines.Length) {
+			updateRotation (TargetPoint);
+			foreach (GameObject line in lines) {
+				gizmoLine g = (gizmoLine) line.GetComponent(typeof(gizmoLine));
+				g.resetLines();
+			}
+			lineDraw = activeLine.GetComponent<LineRenderer>();
+			return;
+		}
+		lineDraw = lines[animatedLineIndex].GetComponent<LineRenderer>();
+		nextAnimatedTargetPoint ();
+		updateRotation (animatedTargetPoint);
+		animateActiveLine ();
+	}
+	
+	void nextAnimatedTargetPoint(){
+		animatedTargetPoint = lines [animatedLineIndex++].transform.FindChild ("EndPoint");
 	}
 
 	public static Vector2 GetClosestPointOnLineSegment(Vector2 A, Vector2 B, Vector2 P)
