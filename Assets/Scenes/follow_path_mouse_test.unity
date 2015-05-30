@@ -253,6 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GoAndBack: 0
+  closedShape: 1
   lineMaterial: {fileID: 2100000, guid: 59af2db53a6f31b45abeb53fae8365c1, type: 2}
   lines:
   - {fileID: 450572398}
