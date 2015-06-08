@@ -71,6 +71,7 @@ public class dragable : MonoBehaviour {
 		if (!playable) return;
 		newLine = true;
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+		animatePlayerScaleLoop ();
 	}
 	
 	void OnMouseDrag()
@@ -102,6 +103,8 @@ public class dragable : MonoBehaviour {
 		}
 		if(TargetPoint.position != transform.position)
 			updateRotation (TargetPoint);
+		iTween.Stop ();
+		resetScale ();
 	}
 
 	private void updateRotation(Transform position){
@@ -132,6 +135,21 @@ public class dragable : MonoBehaviour {
 		newLine = false;
 	}
 
+	void animatePlayerScaleLoop ()
+	{
+		iTween.ScaleFrom   (gameObject,// animatedTargetPoint.position, 2.0f);
+		                    iTween.Hash (
+			"y", 0.9,
+			"x", -0.9,
+			"time", 0.6f,
+			"looptype", "pingPong",
+			"easetype", "linear"
+			));
+	}
+	
+	void resetScale(){
+		transform.localScale = new Vector3 (-1, 1 , 1);
+	}
 
 	void animateActiveLine(){
 		iTween.MoveTo (gameObject,// animatedTargetPoint.position, 2.0f);
