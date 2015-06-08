@@ -136,7 +136,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_BackGroundColor: {r: .651600361, g: .963235319, b: .666644812, a: .0196078438}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -182,6 +182,10 @@ Prefab:
       propertyPath: lines.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11499202, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
+      propertyPath: lineMaterials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 445360, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -218,6 +222,42 @@ Prefab:
       propertyPath: lines.Array.data[0]
       value: 
       objectReference: {fileID: 1828656736}
+    - target: {fileID: 11499202, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
+      propertyPath: lineMaterials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 59af2db53a6f31b45abeb53fae8365c1, type: 2}
+    - target: {fileID: 11499202, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
+      propertyPath: lineColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499202, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
+      propertyPath: lineColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499202, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
+      propertyPath: lineColor.b
+      value: .172413826
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499202, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
+      propertyPath: bgColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499202, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
+      propertyPath: bgColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499202, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
+      propertyPath: bgColor.b
+      value: .310344696
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499202, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
+      propertyPath: lineColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499202, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
+      propertyPath: bgColor.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fb741b6ed35105543abb46d3f87c9c1f, type: 2}
   m_IsPrefabParent: 0

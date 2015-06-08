@@ -12,7 +12,8 @@ public class dragable : MonoBehaviour {
 	public bool connectedLines;
 
 	// Draw Lines
-	public Material lineMaterial;
+	public Color lineColor;
+	public Color bgColor;
 	private LineRenderer lineDraw;
 
 	// Shape Lines
@@ -40,6 +41,12 @@ public class dragable : MonoBehaviour {
 				lines [lines.Length - 1].transform.FindChild ("EndPoint").position = lines [0].transform.FindChild ("StartPoint").position;
 			}
 		}
+
+		// Set Game Colors
+		for (int i = 0; i < lines.Length; i++) {
+			lines[i].GetComponent<LineRenderer>().SetColors(lineColor, lineColor);
+		}
+		Camera.main.backgroundColor = bgColor;
 
 		// Set Start states
 		activeLineIndex = 0;
